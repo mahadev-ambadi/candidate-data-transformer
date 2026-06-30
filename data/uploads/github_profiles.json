@@ -1,35 +1,35 @@
 [
   {
-    "full_name": "Ananya Reddy",
+    "full_name": "Arjun Menon",
     "headline": "Full Stack Developer",
-    "github": "https://github.com/ananyareddy",
+    "github": "https://github.com/arjunmenon",
     "skills": [
       "Python",
-      "FastAPI",
       "React",
-      "Docker"
+      "Docker",
+      "FastAPI"
     ]
   },
   {
-    "full_name": "Vikram Nair",
-    "headline": "Backend Engineer",
-    "github": "https://github.com/vikramnair",
+    "full_name": "Priya Iyer",
+    "headline": "Machine Learning Engineer",
+    "github": "https://github.com/priyaiyer",
     "skills": [
       "Python",
-      "Django",
-      "PostgreSQL",
-      "Redis"
+      "TensorFlow",
+      "Pandas",
+      "Scikit-Learn"
     ]
   },
   {
-    "full_name": "Sneha Patel",
-    "headline": "Frontend Engineer",
-    "github": "https://github.com/snehapatel",
+    "full_name": "Rohan Gupta",
+    "headline": "Cloud & DevOps Engineer",
+    "github": "https://github.com/rohangupta",
     "skills": [
-      "React",
-      "TypeScript",
-      "Next.js",
-      "Tailwind CSS"
+      "AWS",
+      "Docker",
+      "Kubernetes",
+      "Terraform"
     ]
   }
 ]

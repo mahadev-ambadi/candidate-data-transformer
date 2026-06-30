@@ -20,7 +20,12 @@ logging.basicConfig(
 )
 logger = logging.getLogger("CandidateTransformer")
 
-def run_pipeline(data_dir: str = None) -> Dict[str, Any]:
+def run_pipeline(
+    ats_path: str = None,
+    recruiter_csv_path: str = None,
+    github_path: str = None,
+    notes_path: str = None
+) -> Dict[str, Any]:
     """
     Main orchestration function for the Candidate Data Transformer ETL pipeline.
     Executes extraction, validation, normalization, merging, scoring, and projection.
@@ -28,15 +33,30 @@ def run_pipeline(data_dir: str = None) -> Dict[str, Any]:
     # 1. Path Setup
     base_dir = Path(__file__).parent
     
-    if data_dir:
-        input_dir = Path(data_dir)
-        if not input_dir.is_absolute():
-            input_dir = base_dir / data_dir
-    else:
-        # Gracefully handle potential path structures (root vs nested in 'data')
-        input_dir = base_dir / "data" / "sample_data"
-        if not input_dir.exists():
-            input_dir = base_dir / "sample_data"
+    # Resolve default paths if none provided
+    if not (ats_path and recruiter_csv_path and github_path and notes_path):
+        uploads_dir = base_dir / "data" / "uploads"
+        sample_dir = base_dir / "data" / "sample_data"
+        if not sample_dir.exists():
+            sample_dir = base_dir / "sample_data"
+            
+        # Detect if all uploaded files exist
+        uploaded_files = [
+            uploads_dir / "ats.json",
+            uploads_dir / "recruiter.csv",
+            uploads_dir / "github_profiles.json",
+            uploads_dir / "recruiter_notes.txt"
+        ]
+        
+        if uploads_dir.exists() and all(f.exists() for f in uploaded_files):
+            input_dir = uploads_dir
+        else:
+            input_dir = sample_dir
+            
+        ats_path = ats_path or str(input_dir / "ats.json")
+        recruiter_csv_path = recruiter_csv_path or str(input_dir / "recruiter.csv")
+        github_path = github_path or str(input_dir / "github_profiles.json")
+        notes_path = notes_path or str(input_dir / "recruiter_notes.txt")
         
     output_dir = base_dir / "data" / "output"
     if not output_dir.parent.exists():
@@ -58,10 +78,10 @@ def run_pipeline(data_dir: str = None) -> Dict[str, Any]:
     raw_candidates = []
     logger.info("Extracting raw candidate data...")
     try:
-        ats_recs = ats_adapter.load(input_dir / "ats.json")
-        csv_recs = csv_adapter.load(input_dir / "recruiter.csv")
-        gh_recs = gh_adapter.load(input_dir / "github_profiles.json")
-        txt_recs = txt_adapter.load(input_dir / "recruiter_notes.txt")
+        ats_recs = ats_adapter.load(Path(ats_path))
+        csv_recs = csv_adapter.load(Path(recruiter_csv_path))
+        gh_recs = gh_adapter.load(Path(github_path))
+        txt_recs = txt_adapter.load(Path(notes_path))
         
         print(f"Loaded ATS: {len(ats_recs)} records")
         print(f"Loaded Recruiter CSV: {len(csv_recs)} records")

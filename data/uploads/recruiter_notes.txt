@@ -1,22 +1,11 @@
-Candidate: Ananya Reddy
-
-Strong Python developer.
-Excellent FastAPI knowledge.
-Very good React skills.
-Recommended for Full Stack roles.
-
-
-Candidate: Vikram K Nair
-
-Excellent backend engineer.
-Very good Django developer.
-Strong PostgreSQL experience.
-Can lead backend modules.
-
-
-Candidate: Sneha Patel
-
-Very creative frontend developer.
-Excellent React knowledge.
-Good TypeScript experience.
-Needs improvement in backend development.
+Candidate: Arjun Menon
+Strong Python developer with React and Docker experience.
+Shows excellent communication skills.
+--------------------------------------------
+Candidate: Priya Iyer
+Excellent Machine Learning engineer.
+Strong knowledge of Python and TensorFlow.
+--------------------------------------------
+Candidate: Rohan Gupta
+Experienced Cloud Engineer.
+Skilled in Docker, Kubernetes and AWS.

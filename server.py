@@ -22,9 +22,8 @@ def serve_static(path):
 def api_run():
     global _pipeline_cache
     try:
-        if _pipeline_cache is None:
-            logging.info("Executing pipeline from Flask...")
-            _pipeline_cache = run_pipeline()
+        logging.info("Executing pipeline from Flask...")
+        _pipeline_cache = run_pipeline()
         return jsonify({"success": True})
     except Exception as e:
         logging.error(f"Pipeline execution failed: {e}")
@@ -50,7 +49,12 @@ def api_upload():
                 return jsonify({"success": False, "error": f"Missing required file: {expected}"}), 400
                 
         logging.info("Files uploaded successfully. Triggering pipeline...")
-        _pipeline_cache = run_pipeline(data_dir="data/uploads")
+        _pipeline_cache = run_pipeline(
+            ats_path=os.path.join(upload_dir, "ats.json"),
+            recruiter_csv_path=os.path.join(upload_dir, "recruiter.csv"),
+            github_path=os.path.join(upload_dir, "github_profiles.json"),
+            notes_path=os.path.join(upload_dir, "recruiter_notes.txt")
+        )
         return jsonify({"success": True})
     except Exception as e:
         logging.error(f"Upload and pipeline execution failed: {e}")
