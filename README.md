@@ -246,6 +246,3 @@ If transitioning to a live enterprise environment handling millions of records d
 - **Chart.js** – Interactive dashboards and analytics visualizations
 - **JSON & CSV** – Structured data ingestion
 - **Git & GitHub** – Version control and collaboration
-
-## 📄 License
-This project is licensed under the MIT License - see the LICENSE file for details.
