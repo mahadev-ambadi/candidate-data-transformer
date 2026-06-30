@@ -203,14 +203,6 @@ Displays pipeline execution statistics, duplicate reduction, confidence scores, 
 
 ---
 
-### 👥 Candidate Explorer
-
-Search and inspect unified candidate profiles with merged information, skills, and confidence scores.
-
-![Candidates](screenshots/candidates.png)
-
----
-
 ### 📈 Analytics Dashboard
 
 Visualizes ETL performance, duplicate reduction, skill distribution, confidence distribution, and source contributions.
