@@ -1,0 +1,22 @@
+[
+  {
+    "username": "mahadev-ambadi",
+    "name": "Mahadev Ambadi",
+    "bio": "AI & ML Student",
+    "skills": [
+      "Python",
+      "Django",
+      "React"
+    ]
+  },
+  {
+    "username": "rahul-sharma",
+    "name": "Rahul Sharma",
+    "bio": "Backend Developer",
+    "skills": [
+      "Python",
+      "Java",
+      "Docker"
+    ]
+  }
+]

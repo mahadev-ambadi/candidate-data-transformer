@@ -1,0 +1,19 @@
+Candidate: Mahadev Ambadi
+
+Strong Python developer.
+
+Worked on ERP system development.
+
+Knows Django, React, SQL.
+
+Excellent communication.
+
+---
+Candidate: Rahul Sharma
+
+Excellent backend developer
+
+---
+Candidate: John Doe
+
+Random notes.

@@ -1,0 +1,20 @@
+[
+  {
+    "candidateName": "Mahadev Ambadi SS",
+    "mail": "mahadev@gmail.com",
+    "mobile": "+91 9876543210",
+    "organization": "Genrobotics Innovations Pvt Ltd",
+    "designation": "Software Development Intern",
+    "city": "Bangalore"
+  },
+  {
+    "candidateName": "Rahul K Sharma",
+    "mobile": "+91 9876541111",
+    "organization": "Infosys Limited"
+  },
+  {
+    "candidateName": "John Doe",
+    "mail": "johngmail.com",
+    "mobile": "12345"
+  }
+]
