@@ -6,14 +6,14 @@
 ![JavaScript](https://img.shields.io/badge/JavaScript-ES6-yellow.svg)
 
 ## 📌 Project Overview
-The **Candidate Data Transformer** is a deterministic, enterprise-grade ETL (Extract, Transform, Load) pipeline designed to aggregate, normalize, deduplicate, and score candidate profiles from disparate HR systems. It ingests data from raw ATS exports, recruiter notes, CSV files, and GitHub profiles, resolving conflicts through a weighted Confidence Engine, and projects the final unified candidate profiles into a standardized API-ready JSON payload through an interactive web dashboard.
+The **Candidate Data Transformer** is a deterministic, enterprise-grade ETL (Extract, Transform, Load) pipeline designed to aggregate, validate, normalize, deduplicate, merge, and score candidate profiles from disparate HR systems. It ingests data from raw ATS exports, recruiter notes, CSV files, and GitHub profiles, resolving conflicts through a weighted Confidence Engine, and projects the final unified candidate profiles into a standardized API-ready JSON payload through an interactive web dashboard.
 
 ## ✨ Features
 - **Multi-Source Extraction:** Polyglot adapters supporting `.csv`, `.json`, and `.txt` ingestion.
 - **Data Normalization:** Robust schema enforcement and data standardization via Pydantic.
 - **Deterministic Deduplication:** A highly configurable `MergeEngine` that identifies duplicate candidates across systems and intelligently merges their fields.
-- **Confidence Scoring:** A mathematical `ConfidenceEngine` that grades profiles based on Source Reliability, Data Provenance Agreement, and Profile Completeness.
-- **Cryptographic Provenance Lineage:** Every single field retains an audit trail detailing its exact origin and extraction method.
+- **Confidence Scoring:** A Deterministic `ConfidenceEngine` that grades profiles based on Source Reliability, Data Provenance Agreement, and Profile Completeness.
+- **Complete Data Provenance Tracking:** Every single field retains an audit trail detailing its exact origin and extraction method.
 - **Interactive UI Dashboard:** A responsive Flask-powered web application for uploading data sources, visualizing ETL execution, exploring merged candidates, auditing provenance, and exporting the final JSON payload.
 
 ## 🏗️ Architecture
@@ -176,14 +176,15 @@ The application is powered by a Flask backend with a responsive JavaScript front
 
 ## 🔌 REST API Endpoints
 
-| Endpoint | Description |
-|-----------|-------------|
-| /api/run | Execute ETL Pipeline |
-| /api/dashboard | Dashboard Metrics |
-| /api/candidates | Unified Candidate Profiles |
-| /api/analytics | Analytics Data |
-| /api/provenance | Provenance Information |
-| /api/json | Final JSON Payload |
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/api/upload` | Upload candidate data files |
+| POST | `/api/run` | Execute the ETL pipeline |
+| GET | `/api/dashboard` | Retrieve dashboard metrics |
+| GET | `/api/candidates` | Retrieve unified candidate profiles |
+| GET | `/api/analytics` | Retrieve analytics data |
+| GET | `/api/provenance` | Retrieve field-level provenance information |
+| GET | `/api/json` | Retrieve the final API-ready JSON payload |
 
 ## 🖼️ Application Screenshots
 
