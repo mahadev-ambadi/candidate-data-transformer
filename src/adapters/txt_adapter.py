@@ -32,14 +32,20 @@ class TXTAdapter(BaseAdapter):
                 content = f.read()
                 
             # Split candidates if there are multiple blocks separated by '---'
-            blocks = content.split("---")
+            if "---" in content:
+                blocks = content.split("---")
+            else:
+                blocks = ["Candidate:" + b for b in content.split("Candidate:") if b.strip()]
+                
             for block in blocks:
                 block = block.strip()
                 if not block:
                     continue
                 
                 candidate = self._parse_block(block, file_path.name)
-                candidates.append(candidate)
+                # Skip invalid rows/empty objects
+                if candidate.full_name:
+                    candidates.append(candidate)
                 
         except Exception as e:
             # TODO: Replace print with logger

@@ -20,13 +20,16 @@ class ATSAdapter(BaseAdapter):
                 data = json.load(f)
                 
             for item in data:
-                name = item.get("candidateName")
-                mail = item.get("mail")
-                mobile = item.get("mobile")
+                name = item.get("candidateName") or item.get("full_name")
+                mail = item.get("mail") or item.get("email")
+                mobile = item.get("mobile") or item.get("phone")
                 org = item.get("organization")
                 designation = item.get("designation")
-                city = item.get("city")
+                city = item.get("city") or item.get("location")
                 
+                if not name:
+                    continue
+                    
                 emails = [mail] if mail else []
                 phones = [mobile] if mobile else []
                 
@@ -35,8 +38,17 @@ class ATSAdapter(BaseAdapter):
                     location = Location(city=city)
                     
                 experience = []
+                # Fallback to experience array if direct org/designation not found
                 if org or designation:
                     experience.append(Experience(company=org, title=designation))
+                elif "experience" in item and isinstance(item["experience"], list):
+                    for exp in item["experience"]:
+                        company = exp.get("company")
+                        title = exp.get("title")
+                        if company or title:
+                            experience.append(Experience(company=company, title=title))
+                            org = company if not org else org
+                            designation = title if not designation else designation
                     
                 # Setup basic field provenance tracking
                 provenance_records = []

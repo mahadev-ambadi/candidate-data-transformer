@@ -33,17 +33,20 @@ class GitHubAdapter(BaseAdapter):
                 data = json.load(f)
                 
             for item in data:
-                username = item.get("username")
-                if not username:
-                    continue
-                    
                 if self.mode == "prod":
+                    username = item.get("username")
+                    if not username:
+                        continue
                     candidate = self.fetch_profile(username)
                     if candidate:
                         candidates.append(candidate)
                 else:
+                    name = item.get("full_name") or item.get("name")
+                    if not name:
+                        continue
                     candidate = self._map_dev_data(item)
                     candidates.append(candidate)
+                    
                     
         except Exception as e:
             # TODO: Replace print with logger
@@ -54,11 +57,12 @@ class GitHubAdapter(BaseAdapter):
     def _map_dev_data(self, data: dict) -> Candidate:
         """Maps local JSON structure to the canonical Candidate object."""
         username = data.get("username")
-        name = data.get("name")
-        bio = data.get("bio")
+        name = data.get("full_name") or data.get("name")
+        bio = data.get("headline") or data.get("bio")
+        github_url = data.get("github")
         skills_raw = data.get("skills", [])
         
-        links = Link(github=f"https://github.com/{username}") if username else None
+        links = Link(github=github_url) if github_url else (Link(github=f"https://github.com/{username}") if username else None)
         
         skills = []
         for s in skills_raw:

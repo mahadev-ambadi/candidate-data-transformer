@@ -1,0 +1,35 @@
+[
+  {
+    "full_name": "Ananya Reddy",
+    "headline": "Full Stack Developer",
+    "github": "https://github.com/ananyareddy",
+    "skills": [
+      "Python",
+      "FastAPI",
+      "React",
+      "Docker"
+    ]
+  },
+  {
+    "full_name": "Vikram Nair",
+    "headline": "Backend Engineer",
+    "github": "https://github.com/vikramnair",
+    "skills": [
+      "Python",
+      "Django",
+      "PostgreSQL",
+      "Redis"
+    ]
+  },
+  {
+    "full_name": "Sneha Patel",
+    "headline": "Frontend Engineer",
+    "github": "https://github.com/snehapatel",
+    "skills": [
+      "React",
+      "TypeScript",
+      "Next.js",
+      "Tailwind CSS"
+    ]
+  }
+]

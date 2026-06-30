@@ -22,14 +22,27 @@ class CSVAdapter(BaseAdapter):
             
             for _, row in df.iterrows():
                 candidate_id = row.get("candidate_id")
-                name = row.get("name")
+                name = row.get("full_name")
+                if pd.isna(name):
+                    name = row.get("name")
+                
+                if not name or pd.isna(name):
+                    continue
+                    
                 email = row.get("email")
                 phone = row.get("phone")
                 company = row.get("company")
                 title = row.get("title")
                 location_str = row.get("location")
-                
-                emails = [email] if email else []
+                if pd.notna(phone):
+                    if isinstance(phone, float) and phone.is_integer():
+                        phone = str(int(phone))
+                    else:
+                        phone = str(phone)
+                else:
+                    phone = None
+                    
+                emails = [str(email)] if email else []
                 phones = [phone] if phone else []
                 
                 location = None

@@ -1,0 +1,38 @@
+[
+  {
+    "full_name": "Ananya Reddy",
+    "email": "ananya.reddy@gmail.com",
+    "phone": "+919900001111",
+    "location": "Hyderabad",
+    "experience": [
+      {
+        "company": "TCS",
+        "title": "Software Engineer"
+      }
+    ]
+  },
+  {
+    "full_name": "Vikram Nair",
+    "email": "vikram.nair@gmail.com",
+    "phone": "+919811112222",
+    "location": "Kochi",
+    "experience": [
+      {
+        "company": "Infosys",
+        "title": "Backend Developer"
+      }
+    ]
+  },
+  {
+    "full_name": "Sneha Patel",
+    "email": "sneha.patel@gmail.com",
+    "phone": "+919822223333",
+    "location": "Ahmedabad",
+    "experience": [
+      {
+        "company": "Wipro",
+        "title": "Frontend Developer"
+      }
+    ]
+  }
+]

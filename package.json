@@ -1,0 +1,8 @@
+{
+  "name": "candidate-data-transformer-ui",
+  "version": "2.0.0",
+  "description": "Vanilla JS SPA for Candidate Data Transformer",
+  "scripts": {
+    "dev": "npx http-server . -p 8000 -c-1"
+  }
+}
