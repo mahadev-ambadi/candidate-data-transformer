@@ -1,11 +1,12 @@
 # Candidate Data Transformer
 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
-![Python](https://img.shields.io/badge/python-3.9%2B-blue.svg)
-![Streamlit](https://img.shields.io/badge/streamlit-1.30%2B-red.svg)
+![Python](https://img.shields.io/badge/python-3.10+-blue.svg)
+![Flask](https://img.shields.io/badge/Flask-3.x-black.svg)
+![JavaScript](https://img.shields.io/badge/JavaScript-ES6-yellow.svg)
 
 ## 📌 Project Overview
-The **Candidate Data Transformer** is a deterministic, enterprise-grade ETL (Extract, Transform, Load) pipeline designed to aggregate, normalize, deduplicate, and score candidate profiles from disparate HR systems. It ingests data from raw ATS exports, recruiter notes, CSV files, and GitHub profiles, resolving conflicts through a weighted Confidence Engine, and projects the final unified profiles into an API-ready JSON payload.
+The **Candidate Data Transformer** is a deterministic, enterprise-grade ETL (Extract, Transform, Load) pipeline designed to aggregate, normalize, deduplicate, and score candidate profiles from disparate HR systems. It ingests data from raw ATS exports, recruiter notes, CSV files, and GitHub profiles, resolving conflicts through a weighted Confidence Engine, and projects the final unified candidate profiles into a standardized API-ready JSON payload through an interactive web dashboard.
 
 ## ✨ Features
 - **Multi-Source Extraction:** Polyglot adapters supporting `.csv`, `.json`, and `.txt` ingestion.
@@ -13,7 +14,7 @@ The **Candidate Data Transformer** is a deterministic, enterprise-grade ETL (Ext
 - **Deterministic Deduplication:** A highly configurable `MergeEngine` that identifies duplicate candidates across systems and intelligently merges their fields.
 - **Confidence Scoring:** A mathematical `ConfidenceEngine` that grades profiles based on Source Reliability, Data Provenance Agreement, and Profile Completeness.
 - **Cryptographic Provenance Lineage:** Every single field retains an audit trail detailing its exact origin and extraction method.
-- **Interactive UI Dashboard:** A 5-page enterprise Streamlit dashboard for visualizing ETL metrics, exploring candidates, auditing provenance, and exporting payloads.
+- **Interactive UI Dashboard:** A responsive Flask-powered web application for uploading data sources, visualizing ETL execution, exploring merged candidates, auditing provenance, and exporting the final JSON payload.
 
 ## 🏗️ Architecture
 The backend strictly enforces separation of concerns. Data flows deterministically without side effects:
@@ -24,41 +25,78 @@ The backend strictly enforces separation of concerns. Data flows deterministical
 5. **Confidence Engine:** Scores the resulting merged profiles.
 6. **Projection Layer:** Strips internal metadata to generate clean API payloads.
 
-## 🔄 Pipeline Flow
+## 🔄 System Architecture
+
 ```mermaid
-graph TD;
-    A[Raw Data Sources] -->|Adapters| B(Validator);
-    B -->|Valid Data| C(Normalizer);
-    C -->|Clean Data| D{Merge Engine};
-    D -->|Unified Profiles| E(Confidence Engine);
-    E -->|Scored Profiles| F(Projection Layer);
-    F -->|API Ready JSON| G[Streamlit UI];
+flowchart LR
+
+subgraph Inputs
+A1[ATS JSON]
+A2[Recruiter CSV]
+A3[GitHub Profiles]
+A4[Recruiter Notes TXT]
+end
+
+subgraph ETL Pipeline
+B[Extraction]
+C[Validation]
+D[Normalization]
+E[Candidate Matching]
+F[Field Merging]
+G[Confidence Scoring]
+H[Projection]
+end
+
+subgraph Backend
+I[Flask REST API]
+end
+
+subgraph Frontend
+J[Dashboard]
+K[Candidate Explorer]
+L[Analytics]
+M[Provenance]
+N[JSON Viewer]
+end
+
+A1 --> B
+A2 --> B
+A3 --> B
+A4 --> B
+
+B --> C
+C --> D
+D --> E
+E --> F
+F --> G
+G --> H
+H --> I
+
+I --> J
+I --> K
+I --> L
+I --> M
+I --> N
 ```
 
 ## 📁 Folder Structure
 ```text
 candidate-data-transformer/
-├── assets/
-│   └── styles.css                # Enterprise UI CSS overrides
-├── data/
-│   ├── output/                   # Projected API JSON payloads
-│   └── sample/                   # Raw input data (CSV, JSON, TXT)
-├── pages/
-│   ├── analytics.py              # Pipeline KPIs & Merge Enrichment
-│   ├── candidates.py             # Candidate Profile Explorer
-│   ├── dashboard.py              # Executive ETL Dashboard
-│   ├── json_viewer.py            # API Payload Simulator
-│   └── provenance.py             # Data Lineage Audit Viewer
+│
+├── static/
+├── templates/
+├── uploads/
 ├── src/
-│   ├── adapters/                 # ATS, CSV, GitHub, TXT Adapters
-│   ├── confidence/               # ConfidenceEngine scoring logic
-│   ├── merger/                   # CandidateMatcher & FieldMerger
-│   ├── models/                   # Pydantic Schemas (Candidate, Provenance)
-│   ├── normalizer/               # Data standardization rules
-│   ├── projection/               # JSON payload sanitization
-│   └── validator/                # Validation logic
-├── app.py                        # Streamlit global shell & routing
-├── main.py                       # ETL orchestration & execution
+│   ├── adapters/
+│   ├── merger/
+│   ├── validator/
+│   ├── projection/
+│   ├── confidence/
+│   └── ...
+│
+├── server.py
+├── main.py
+├── requirements.txt
 └── README.md
 ```
 
@@ -66,7 +104,7 @@ candidate-data-transformer/
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/your-username/candidate-data-transformer.git
+   git clone https://github.com/mahadev-ambadi/candidate-data-transformer.git
    cd candidate-data-transformer
    ```
 
@@ -80,24 +118,121 @@ candidate-data-transformer/
    ```bash
    pip install -r requirements.txt
    ```
-*(Note: requires `streamlit`, `pandas`, and `pydantic`)*
+*(Note: requires `flask`, `flask-CORS` ,`pandas`, and `pydantic`)*
 
 ## ⚙️ Running the Project
-The entire system is accessible via the Streamlit frontend. The ETL backend executes on-demand from the UI.
+
+1. Install the required dependencies:
+
 ```bash
-streamlit run app.py
+pip install -r requirements.txt
 ```
 
-## 📊 Dashboard Overview
-The presentation layer is stateless and deterministic, built with Streamlit:
-- **Dashboard:** Offers a 10,000-foot view of pipeline execution, duplicate reduction metrics, and an extraction funnel.
-- **Candidate Explorer:** Searchable, filterable profile cards detailing experience, education, top skills, and overall confidence.
-- **Analytics:** Charts visualizing source contributions, top skills, and demonstrating the "Merge Enrichment" value of the ETL pipeline.
-- **Provenance:** A deep-dive audit trail proving the origin source of every single data point.
-- **JSON Viewer:** A simulated REST API endpoint for inspecting and downloading the final sanitized JSON payloads.
+2. Start the Flask server:
 
-## 🖼️ Screenshots
-*(Include screenshots of your Dashboard, Candidate Explorer, and Provenance Viewer here)*
+```bash
+python server.py
+```
+
+3. Open your browser and navigate to:
+
+```
+http://127.0.0.1:5000
+```
+
+---
+
+## 📊 Dashboard Overview
+
+The application is powered by a Flask backend with a responsive JavaScript frontend. Users can upload multiple data sources, execute the deterministic ETL pipeline, and explore the unified candidate profiles through interactive dashboards.
+
+- **Data Sources:** Upload structured (JSON, CSV) and unstructured (TXT) candidate data files directly from the UI to trigger the ETL pipeline.
+- **Executive Dashboard:** Displays pipeline metrics including raw records, validated records, merged profiles, confidence scores, duplicate reduction, source distribution, and pipeline summary.
+- **Candidate Explorer:** Browse unified candidate profiles with searchable cards showing contact details, experience, skills, confidence score, and merged information.
+- **Analytics:** Interactive charts highlighting duplicate reduction, source contributions, skill enrichment, confidence distribution, and ETL performance metrics.
+- **Provenance:** Complete audit trail showing the origin, extraction method, and lineage of every field merged into the final candidate profile.
+- **JSON API Viewer:** Inspect, search, copy, and download the final deterministic JSON payload generated by the ETL pipeline, simulating a production-ready REST API response.
+
+---
+
+## 🚀 Workflow
+
+1. Upload candidate data files (ATS JSON, Recruiter CSV, GitHub Profiles JSON, and Recruiter Notes TXT).
+2. Execute the deterministic ETL pipeline.
+3. Validate and normalize incoming records.
+4. Merge duplicate candidates using deterministic matching rules.
+5. Calculate confidence scores and preserve complete provenance.
+6. Explore the unified candidate profiles through the interactive dashboard
+7. Export or download the final standardized JSON payload for downstream applications.
+
+## 📂 Supported Input Formats
+
+| Source | Format | Type |
+|---------|---------|------|
+| ATS Export | JSON | Structured |
+| Recruiter Database | CSV | Structured |
+| GitHub Profiles | JSON | Structured |
+| Recruiter Notes | TXT | Unstructured |
+
+## 🔌 REST API Endpoints
+
+| Endpoint | Description |
+|-----------|-------------|
+| /api/run | Execute ETL Pipeline |
+| /api/dashboard | Dashboard Metrics |
+| /api/candidates | Unified Candidate Profiles |
+| /api/analytics | Analytics Data |
+| /api/provenance | Provenance Information |
+| /api/json | Final JSON Payload |
+
+## 🖼️ Application Screenshots
+
+---
+
+### 📤 Upload Candidate Data
+
+![Upload](screenshots/upload.png)
+
+---
+
+### 📊 Executive Dashboard
+
+Displays pipeline execution statistics, duplicate reduction, confidence scores, and source metrics.
+
+![Dashboard](screenshots/dashboard.png)
+
+---
+
+### 👥 Candidate Explorer
+
+Search and inspect unified candidate profiles with merged information, skills, and confidence scores.
+
+![Candidates](screenshots/candidates.png)
+
+---
+
+### 📈 Analytics Dashboard
+
+Visualizes ETL performance, duplicate reduction, skill distribution, confidence distribution, and source contributions.
+
+![Analytics](screenshots/analytics.png)
+
+---
+
+### 🔍 Provenance Viewer
+
+Displays complete field-level lineage showing where every piece of candidate data originated.
+
+![Provenance](screenshots/provenance.png)
+
+---
+
+### 📄 JSON Output Viewer
+
+Inspect and download the final standardized API-ready JSON payload.
+
+![JSON Viewer](screenshots/json-viewer.png)
+
 
 ## 🔮 Future Improvements
 If transitioning to a live enterprise environment handling millions of records daily, the following architecture upgrades are recommended:
@@ -107,10 +242,18 @@ If transitioning to a live enterprise environment handling millions of records d
 - **Event-Driven Streaming:** Transition from batch processing to an Apache Kafka / AWS Kinesis real-time stream.
 
 ## 🛠️ Technologies Used
-- **Python 3.9+** (Core ETL Logic)
-- **Pydantic** (Validation & Schema Enforcement)
-- **Streamlit** (Presentation Layer)
-- **Pandas** (Analytics Aggregation)
+
+- **Python 3.10+** – Core ETL pipeline and data processing
+- **Flask** – Backend REST API and web server
+- **Flask-CORS** – Cross-origin API support
+- **Pydantic** – Data validation and schema enforcement
+- **Pandas** – Data manipulation and ETL transformations
+- **HTML5** – Frontend structure
+- **CSS3** – Responsive UI styling
+- **JavaScript (ES6)** – Interactive frontend and API integration
+- **Chart.js** – Interactive dashboards and analytics visualizations
+- **JSON & CSV** – Structured data ingestion
+- **Git & GitHub** – Version control and collaboration
 
 ## 📄 License
 This project is licensed under the MIT License - see the LICENSE file for details.
